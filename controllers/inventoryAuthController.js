@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const InventoryUser = require('../models/InventoryUser');
 const { validateInventoryUserInput } = require('../utils/inventoryValidation');
