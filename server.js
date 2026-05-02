@@ -34,7 +34,9 @@ app.use('/api/inventory/users', inventoryUserRoutes);
 app.use('/api/inventory/products', inventoryProductRoutes);
 app.use('/api/inventory/suppliers', inventorySupplierRoutes);
 app.use('/api/inventory/notifications', inventoryNotificationRoutes);
-
+app.get('/', (req, res) => {
+    res.send('Backend is running 🚀');
+});
 // Database and Server
 const PORT = process.env.PORT || 5000;
 
