@@ -40,11 +40,21 @@ app.get('/', (req, res) => {
 // Database and Server
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(async () => {
-    console.log('MongoDB connected');
-    await seedData(); // Seed on startup
-    app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
-}).catch(err => {
-    console.error('Database connection failed', err);
-    process.exit(1);
+// 1. START SERVER IMMEDIATELY
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
 });
+
+// 2. CONNECT DB AFTER (NON-BLOCKING)
+connectDB()
+    .then(async () => {
+        console.log('MongoDB connected');
+
+        // run seed safely (but DO NOT block server)
+        seedData()
+            .then(() => console.log('Seed complete'))
+            .catch(err => console.error('Seed error', err));
+    })
+    .catch(err => {
+        console.error('Database connection failed', err);
+    });
